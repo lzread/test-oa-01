@@ -2,7 +2,7 @@
 
     <div id="SideBar">
 
-        <el-menu background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" unique-opened router :default-active="$route.path">
+        <el-menu background-color="#212121" text-color="#ccc" active-text-color="#ffd04b" unique-opened router :default-active="$route.path">
             <el-menu-item index="/">首页</el-menu-item>
             <el-submenu index="1">
                 <template slot="title">
@@ -32,6 +32,6 @@ export default {
     position: fixed;
     left: 0;
     top: 55px;
-    background: #eee;
+    background: #212121;
 }
 </style>

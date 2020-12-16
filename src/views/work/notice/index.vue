@@ -4,14 +4,23 @@
 
         <el-button type="primary" @click="addHandle">新建</el-button>
 
-        <el-table :data="rows" style="width: 100%">
-            <el-table-column prop="id" label="ID" width="180">
+        <el-table :data="rows">
+            <el-table-column prop="title" label="标题"> </el-table-column>
+            <el-table-column prop="release_time" label="发布时间"> </el-table-column>
+            <el-table-column label="状态">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.status == 0" size="mini">正常</el-tag>
+                    <el-tag v-else size="mini">禁用</el-tag>
+                </template>
             </el-table-column>
-            <el-table-column prop="title" label="标题" width="280">
-            </el-table-column>
-            <el-table-column prop="release_time" label="发布时间">
+            <el-table-column label="操作" width="150">
+                <template slot-scope="scope">
+                    <el-button @click="editHandle(scope.row)" type="text" size="mini">编辑</el-button>
+                    <el-button @click="delHandle(scope.$index, scope.row)" type="text" size="mini">删除</el-button>
+                </template>
             </el-table-column>
         </el-table>
+   
 
     </div>
 
@@ -27,8 +36,8 @@ export default {
         return {
             rows: [],
             items: {},
-            dialogVisble: false,
-            dialogVisbleType: "",
+            dialogVisible: false,
+            dialogVisibleType: "",
             total: 0,
             listQuery: {
                 page: 1,
@@ -45,8 +54,11 @@ export default {
             this.total = total;
             this.rows = data;
         },
-        addHandle() {},
+        addHandle() {
+         
+        }
     },
+    components: {  },
 };
 </script>
 

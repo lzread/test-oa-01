@@ -2,11 +2,7 @@
 
     <div>
 
-
-
-        Login
-
-
+        
 
     </div>
 
@@ -15,18 +11,20 @@
 
 
 <script>
-
-    export default {
-
-        name:"Login",
-
-    }
-
+export default {
+    name: "login",
+    props: {},
+    data() {
+        return {
+            
+        };
+    },
+    methods: {
+        
+    },
+};
 </script>
 
 
 <style lang="scss" scoped>
-
-
-
 </style>

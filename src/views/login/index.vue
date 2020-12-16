@@ -1,10 +1,20 @@
 <template>
 
-    <div>
+  <div>
 
-        
+    <input
+      type="text"
+      placeholder="用户名"
+      v-model="loginForm.username"
+    >
+    <input
+      type="password"
+      placeholder="密码"
+      v-model="loginForm.password"
+    >
+    <button @click="login">登录</button>
 
-    </div>
+  </div>
 
 </template>
 
@@ -12,16 +22,25 @@
 
 <script>
 export default {
-    name: "login",
-    props: {},
-    data() {
-        return {
-            
-        };
+  name: "login",
+  props: {},
+  data() {
+    return {
+      loginForm: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    login() {
+      this.$store.dispatch("user/login", this.loginForm).then(() => {
+        this.$router.push({
+          path: "/",
+        });
+      });
     },
-    methods: {
-        
-    },
+  },
 };
 </script>
 

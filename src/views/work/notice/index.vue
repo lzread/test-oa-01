@@ -1,48 +1,27 @@
 <template>
-
   <div>
-
-    <el-button
-      type="primary"
-      @click="addHandle"
-    >新建</el-button>
+    <el-button type="primary" @click="addHandle">新建</el-button>
 
     <el-table :data="rows">
-      <el-table-column
-        prop="title"
-        label="标题"
-      > </el-table-column>
-      <el-table-column
-        prop="release_time"
-        label="发布时间"
-      > </el-table-column>
+      <el-table-column prop="title" label="标题"> </el-table-column>
+      <el-table-column prop="release_time" label="发布时间"> </el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
-          <el-tag
-            v-if="scope.row.status == 0"
-            size="mini"
-          >正常</el-tag>
-          <el-tag
-            v-else
-            size="mini"
-          >禁用</el-tag>
+          <el-tag v-if="scope.row.status == 0" size="mini">正常</el-tag>
+          <el-tag v-else size="mini">禁用</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        label="操作"
-        width="150"
-      >
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
-          <el-button
-            @click="editHandle(scope.row)"
-            type="text"
-            size="mini"
-          >编辑</el-button>
+          <el-button @click="editHandle(scope.row)" type="text" size="mini"
+            >编辑</el-button
+          >
           <el-button
             @click="delHandle(scope.$index, scope.row)"
             type="text"
             size="mini"
-          >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -60,19 +39,12 @@
       :visible.sync="dialogVisible"
       width="30%"
     >
-
-      <el-form
-        ref="form"
-        :model="items"
-        label-width="80px"
-      >
-
+      <el-form ref="form" :model="items" label-width="80px">
         <el-form-item label="标题">
           <el-input v-model="items.title"></el-input>
         </el-form-item>
 
         <el-form-item>
-
           <el-upload
             class="avatar-uploader"
             :action="uploadPath"
@@ -80,17 +52,9 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img
-              v-if="imageUrl"
-              :src="imageUrl"
-              class="avatar"
-            >
-            <i
-              v-else
-              class="el-icon-plus avatar-uploader-icon"
-            ></i>
+            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-
         </el-form-item>
 
         <el-form-item label="日期">
@@ -103,31 +67,17 @@
         </el-form-item>
 
         <el-form-item label="内容">
-          <el-input
-            type="textarea"
-            v-model="items.content"
-          ></el-input>
+          <el-input type="textarea" v-model="items.content"></el-input>
         </el-form-item>
-
       </el-form>
 
-      <span
-        slot="footer"
-        class="dialog-footer"
-      >
+      <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button
-          type="primary"
-          @click="commitHandle"
-        >确 定</el-button>
+        <el-button type="primary" @click="commitHandle">确 定</el-button>
       </span>
     </el-dialog>
-
   </div>
-
 </template>
-
-
 
 <script>
 import { list, add, edit, del } from "@/api/notice";
@@ -145,8 +95,8 @@ export default {
       total: 0,
       listQuery: {
         page: 1,
-        limit: 10,
-      },
+        limit: 10
+      }
     };
   },
   created() {
@@ -164,14 +114,14 @@ export default {
       this.imageUrl = "";
       this.items = {
         status: 0,
-        image: "",
+        image: ""
       };
     },
     editHandle(row) {
       this.dialogVisible = true;
       this.dialogVisibleType = "edit";
       this.items = row;
-      this.imageUrl = "http://api.lzread.com:3111/upload/" + row.image;
+      this.imageUrl = row.image;
     },
     async commitHandle() {
       if (this.dialogVisibleType == "add") {
@@ -185,13 +135,13 @@ export default {
     delHandle(index, row) {
       this.$confirm("是否删除？", "提示", {
         confirmButtonText: "确定",
-        cancelButtonText: "取消",
+        cancelButtonText: "取消"
       }).then(async () => {
         this.rows.splice(index, 1);
         await del(row.id);
         this.$message({
           type: "success",
-          message: "删除成功",
+          message: "删除成功"
         });
       });
     },
@@ -205,12 +155,11 @@ export default {
     },
     beforeAvatarUpload() {
       //
-    },
+    }
   },
-  components: { Pagination },
+  components: { Pagination }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .avatar-uploader .el-upload {

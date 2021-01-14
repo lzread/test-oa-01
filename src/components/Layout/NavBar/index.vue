@@ -1,6 +1,7 @@
 <template>
   <div id="NavBar">
     {{name}}
+    <el-button @click="exit">exit</el-button>
   </div>
 </template>
 
@@ -11,10 +12,16 @@ export default {
   computed: {
     ...mapGetters({
       name: "name",
-      avatar: "avatar"
-    })
+      avatar: "avatar",
+    }),
   },
-  methods: {}
+  methods: {
+    exit() {
+      this.$store.dispatch("user/logout").then(() => {
+        this.$router.push({ path: "/login" });
+      });
+    },
+  },
 };
 </script>
 

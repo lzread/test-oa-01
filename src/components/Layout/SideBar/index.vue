@@ -8,20 +8,23 @@
       router
       :default-active="$route.path"
     >
-      <el-menu-item index="/">首页</el-menu-item>
-      <el-submenu index="1">
-        <template slot="title">
-          <span>办公管理</span>
-        </template>
-        <el-menu-item index="/work/notice">公告管理</el-menu-item>
-      </el-submenu>
+
+      <sidebar-item :items="permission_routes"></sidebar-item>
+
     </el-menu>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import SidebarItem from "./SidebarItem";
+
 export default {
-  name: "SideBar"
+  name: "SideBar",
+  computed: {
+    ...mapGetters(["permission_routes"]),
+  },
+  components: { SidebarItem },
 };
 </script>
 

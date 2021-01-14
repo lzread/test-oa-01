@@ -1,27 +1,50 @@
 <template>
   <div>
-    <el-button type="primary" @click="addHandle">新建</el-button>
+    <el-button
+      type="primary"
+      @click="addHandle"
+    >新建</el-button>
+
+    <el-input placeholder="请输入内容" v-model="listQuery.keyword" class="input-with-select">
+    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+  </el-input>
 
     <el-table :data="rows">
-      <el-table-column prop="title" label="标题"> </el-table-column>
-      <el-table-column prop="release_time" label="发布时间"> </el-table-column>
+      <el-table-column
+        prop="title"
+        label="标题"
+      > </el-table-column>
+      <el-table-column
+        prop="release_time"
+        label="发布时间"
+      > </el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.status == 0" size="mini">正常</el-tag>
-          <el-tag v-else size="mini">禁用</el-tag>
+          <el-tag
+            v-if="scope.row.status == 0"
+            size="mini"
+          >正常</el-tag>
+          <el-tag
+            v-else
+            size="mini"
+          >禁用</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column
+        label="操作"
+        width="150"
+      >
         <template slot-scope="scope">
-          <el-button @click="editHandle(scope.row)" type="text" size="mini"
-            >编辑</el-button
-          >
+          <el-button
+            @click="editHandle(scope.row)"
+            type="text"
+            size="mini"
+          >编辑</el-button>
           <el-button
             @click="delHandle(scope.$index, scope.row)"
             type="text"
             size="mini"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -39,7 +62,11 @@
       :visible.sync="dialogVisible"
       width="30%"
     >
-      <el-form ref="form" :model="items" label-width="80px">
+      <el-form
+        ref="form"
+        :model="items"
+        label-width="80px"
+      >
         <el-form-item label="标题">
           <el-input v-model="items.title"></el-input>
         </el-form-item>
@@ -52,8 +79,15 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <img
+              v-if="imageUrl"
+              :src="imageUrl"
+              class="avatar"
+            />
+            <i
+              v-else
+              class="el-icon-plus avatar-uploader-icon"
+            ></i>
           </el-upload>
         </el-form-item>
 
@@ -67,13 +101,22 @@
         </el-form-item>
 
         <el-form-item label="内容">
-          <el-input type="textarea" v-model="items.content"></el-input>
+          <el-input
+            type="textarea"
+            v-model="items.content"
+          ></el-input>
         </el-form-item>
       </el-form>
 
-      <span slot="footer" class="dialog-footer">
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="commitHandle">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="commitHandle"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -95,8 +138,9 @@ export default {
       total: 0,
       listQuery: {
         page: 1,
-        limit: 10
-      }
+        limit: 10,
+        keyword:""
+      },
     };
   },
   created() {
@@ -108,13 +152,16 @@ export default {
       this.total = total;
       this.rows = data;
     },
+    search(){
+      this.getList()
+    },
     addHandle() {
       this.dialogVisible = true;
       this.dialogVisibleType = "add";
       this.imageUrl = "";
       this.items = {
         status: 0,
-        image: ""
+        image: "",
       };
     },
     editHandle(row) {
@@ -135,13 +182,13 @@ export default {
     delHandle(index, row) {
       this.$confirm("是否删除？", "提示", {
         confirmButtonText: "确定",
-        cancelButtonText: "取消"
+        cancelButtonText: "取消",
       }).then(async () => {
         this.rows.splice(index, 1);
         await del(row.id);
         this.$message({
           type: "success",
-          message: "删除成功"
+          message: "删除成功",
         });
       });
     },
@@ -155,9 +202,9 @@ export default {
     },
     beforeAvatarUpload() {
       //
-    }
+    },
   },
-  components: { Pagination }
+  components: { Pagination },
 };
 </script>
 

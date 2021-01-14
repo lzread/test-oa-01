@@ -14,10 +14,19 @@ router.beforeEach(async (to, from, next) => {
 
         } else {
 
-            //继续执行
-            const {roles} = await store.dispatch('user/getInfo');
-            console.log(roles)
-            next()
+            const hasRoles = store.getters.roles && store.getters.roles.length > 0;
+
+            if (hasRoles) {
+                next()
+            } else {
+                const {roles} = await store.dispatch('user/getInfo');
+                const serverRouter = await store.dispatch('user/getMenus');
+                console.log(serverRouter)
+                const accessRoutes = await store.dispatch('permission/generateRoutes', { roles, serverRouter });
+                router.addRoutes(accessRoutes);
+                next({ ...to, replace: true })
+
+            }
         }
 
     } else {

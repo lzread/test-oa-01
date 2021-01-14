@@ -4,46 +4,52 @@ import Layout from '@/components/Layout'
 Vue.use(Router);
 
 
-export default new Router({
 
-    routes: [
-        {
-            path: '/login',
-            component: () => import('@/views/login/index'),
-            name: 'login',
-            meta: {
-                title: '登录',
-            }
-        },
-        {
-            path: '',
-            component: Layout,
-            redirect: '/',
-            children: [{
-                path: '/',
-                component: () => import('@/views/home/index'),
-                meta: {
-                    title: '首页',
-                }
-            }]
-        },
-        {
-            path: '',
-            component: Layout,
-            children: [{
-                path:'/work/notice',
-                component: () => import('@/views/work/notice/index'),
-                name:'notice',
-                meta: {
-                    title: '公告',
-                }
-            }]
+export const constantRoutes = [
+    {
+        path: '/404',
+        component: () => import('@/views/error/404'),
+        name: '404',
+        hidden: true,
+        meta: {
+            title: '404',
         }
-    ]
+    },
+    {
+        path: '/login',
+        component: () => import('@/views/login/index'),
+        name: 'login',
+        hidden: true,
+        meta: {
+            title: '登录',
+        }
+    },
+    {
+        path: '',
+        component: Layout,
+        redirect: '/',
+        children: [{
+            path: '/',
+            component: () => import('@/views/home/index'),
+            meta: {
+                title: '首页',
+            }
+        }]
+    },
 
-});
+]
 
+const createRouter = () => new Router({
+    routes: constantRoutes
+})
 
+export const asyncRoutes = [
+    { path: '*', redirect: '/404', hidden: true }
+]
+
+const router = createRouter()
+
+export default router;
 
 
 

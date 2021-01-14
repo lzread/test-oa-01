@@ -1,11 +1,13 @@
 import { login, getInfo } from '@/api/user'
+import { getMenus } from '@/api/menu'
 import Cookies from 'js-cookie'
 
 const state = {
     id: Cookies.get('id'),
     token: Cookies.get('token'),
     name: "",
-    roles: []
+    roles: [],
+    serverRouter: []
 }
 
 const mutations = {
@@ -20,6 +22,9 @@ const mutations = {
     },
     SET_ROLES: (state, roles) => {
         state.roles = roles;
+    },
+    SET_SERVER_ROUTER: (state, serverRouter) => {
+        state.serverRouter = serverRouter;
     },
 }
 
@@ -66,6 +71,26 @@ const actions = {
             })
         })
 
+    },
+    logout({ commit }) {
+        return new Promise((resolve) => {
+            commit('SET_TOKEN', []);
+            commit('SET_ID', []);
+            Cookies.remove('token');
+            Cookies.remove('id');
+            resolve()
+        })
+    },
+    getMenus({ commit }) {
+        return new Promise((resolve, reject) => {
+            getMenus().then(response => {
+                const { data } = response
+                commit('SET_SERVER_ROUTER', data);
+                resolve(data)
+            }).catch(error => {
+                reject(error)
+            })
+        })
     }
 
 }

@@ -1,58 +1,26 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Layout from '@/components/Layout'
+import Vue from "vue";
+import Router from "vue-router";
 Vue.use(Router);
 
-
-
-export const constantRoutes = [
+const router = new Router({
+  routes: [
     {
-        path: '/404',
-        component: () => import('@/views/error/404'),
-        name: '404',
-        hidden: true,
-        meta: {
-            title: '404',
-        }
+      path: "/",
+      component: () => import("@/views/main")
     },
     {
-        path: '/login',
-        component: () => import('@/views/login/index'),
-        name: 'login',
-        hidden: true,
-        meta: {
-            title: '登录',
-        }
+      path: "/test1",
+      component: () => import("@/views/test1")
     },
     {
-        path: '',
-        component: Layout,
-        redirect: '/',
-        children: [{
-            path: '/',
-            component: () => import('@/views/home/index'),
-            meta: {
-                title: '首页',
-            }
-        }]
+      path: "/test2",
+      component: () => import("@/views/test2")
     },
-
-]
-
-const createRouter = () => new Router({
-    routes: constantRoutes
-})
-
-export const asyncRoutes = [
-    { path: '*', redirect: '/404', hidden: true }
-]
-
-const router = createRouter()
+    {
+      path: "/test3",
+      component: () => import("@/views/test3")
+    }
+  ]
+});
 
 export default router;
-
-
-
-
-
-

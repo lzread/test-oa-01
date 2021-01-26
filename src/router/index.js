@@ -11,14 +11,6 @@ const router = new Router({
     {
       path: "/test1",
       component: () => import("@/views/test1")
-    },
-    {
-      path: "/test2",
-      component: () => import("@/views/test2")
-    },
-    {
-      path: "/test3",
-      component: () => import("@/views/test3")
     }
   ]
 });

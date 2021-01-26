@@ -1,32 +1,32 @@
 <template>
   <div>
     <h3>Main</h3>
-
-    <p>当前状态：{{ num }}</p>
-
-    <div>
-      <input type="text" v-model="numText" />
-      <button @click="save">保存状态</button>
-    </div>
-
-    <router-link to="/test1">go test1</router-link>
+    <pre>{{rows}}</pre>
+    <button @click="add">add</button>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { list, add, edit } from "@/api/news";
 export default {
   data() {
     return {
-      numText: ""
+      rows: []
     };
   },
-  computed: {
-    ...mapGetters(["num"])
+  created(){
+    this.getList()
   },
   methods: {
-    save() {
-      this.$store.commit("app/SET_NUM", this.numText);
+    async getList() {
+      const data = await list();
+      this.rows = data;
+    },
+    async add(){
+      await add();
+    },
+    async edit(){
+      await edit();
     }
   }
 };

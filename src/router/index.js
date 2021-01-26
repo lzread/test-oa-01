@@ -7,10 +7,6 @@ const router = new Router({
     {
       path: "/",
       component: () => import("@/views/main")
-    },
-    {
-      path: "/test1",
-      component: () => import("@/views/test1")
     }
   ]
 });

@@ -10,7 +10,7 @@ module.exports = [
           {
             id: 1,
             name: "system",
-            title: "系统管理 Mock",
+            title: "系统管理",
             path: "/system",
             component: "/views/components/Layout",
             icon: null,
@@ -24,7 +24,7 @@ module.exports = [
           {
             id: 2,
             name: "menus",
-            title: "菜单管理 Mock",
+            title: "菜单管理",
             path: "/system/menus",
             component: "/views/system/menus",
             icon: null,
@@ -38,7 +38,7 @@ module.exports = [
           {
             id: 3,
             name: "roles",
-            title: "角色管理 Mock",
+            title: "角色管理",
             path: "/system/roles",
             component: "/views/system/roles",
             icon: null,
@@ -103,7 +103,7 @@ module.exports = [
             parent_id: "2",
             type: 1,
             sort: 0,
-            roles: null
+            roles: "editor"
           },
           {
             id: 8,
@@ -122,7 +122,7 @@ module.exports = [
           {
             id: 9,
             name: "users",
-            title: "用户管理 Mock",
+            title: "用户管理",
             path: "/system/users",
             component: "/views/system/users/index",
             icon: null,
@@ -131,12 +131,12 @@ module.exports = [
             parent_id: "1",
             type: 0,
             sort: 0,
-            roles: "editor"
+            roles: ""
           },
           {
             id: 10,
             name: "department",
-            title: "部门管理 Mock",
+            title: "部门管理",
             path: "/system/department",
             component: "/views/system/department/index",
             icon: null,
@@ -150,41 +150,13 @@ module.exports = [
           {
             id: 11,
             name: "logs",
-            title: "系统日志 Mock",
+            title: "系统日志",
             path: "/system/logs",
             component: "/views/system/logs/index",
             icon: null,
             redirect: null,
             hidden: "false",
             parent_id: "1",
-            type: 0,
-            sort: 0,
-            roles: "editor"
-          },
-          {
-            id: 12,
-            name: "work",
-            title: "办公管理 Mock",
-            path: "/work",
-            component: "/views/components/Layout",
-            icon: null,
-            redirect: null,
-            hidden: "false",
-            parent_id: "0",
-            type: 0,
-            sort: 0,
-            roles: "editor"
-          },
-          {
-            id: 13,
-            name: "notice",
-            title: "通知公告 Mock",
-            path: "/work/notice",
-            component: "/views/work/notice/index",
-            icon: null,
-            redirect: null,
-            hidden: "false",
-            parent_id: "12",
             type: 0,
             sort: 0,
             roles: "editor"

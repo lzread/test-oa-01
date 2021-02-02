@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button @click="addHandle"></el-button>
+    <el-button @click="addHandle">新建</el-button>
     <el-table
       :data="rows"
       row-key="id"
@@ -115,6 +115,33 @@
       </div>
     </el-dialog>
 
+    <el-dialog
+      :visible.sync="dialogPermVisble"
+      :title="dialogPermVisbleType == 'add' ? '新建权限按钮' : '编辑权限按钮' "
+    >
+      <el-form
+        ref="perm"
+        :model="items"
+        label-width="100px"
+
+      >
+        <el-form-item label="权限功能">
+          <el-radio-group v-model="permGroop">
+            <el-radio-button label="ADD">新建权限</el-radio-button>
+            <el-radio-button label="EDIT">编辑权限</el-radio-button>
+            <el-radio-button label="DELETE">删除权限</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="权限描述">
+          <el-input v-model="items.title"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="reset('perm')">取消</el-button>
+        <el-button @click="commitPermissionHandle">确定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -133,16 +160,21 @@ export default {
       parentItems: [],
       dialogVisible: false,
       dialogVisibleType: "",
+      dialogPermVisble: false,
+      dialogPermVisbleType: "",
+      permGroop: "ADD",
     };
   },
   computed: {
     treeSelectData() {
-      return [{
-        id: 0,
-        parent_id: -1,
-        title: "根节点",
-        children: this.parentItems,
-      }];
+      return [
+        {
+          id: 0,
+          parent_id: -1,
+          title: "根节点",
+          children: this.parentItems,
+        },
+      ];
     },
   },
   created() {
@@ -187,13 +219,57 @@ export default {
       } else {
         await edit(this.items);
       }
+      this.dialogVisible = false;
+      this.getList();
     },
 
-    addChildrenHandle() {},
-    addPermissionHandle() {},
+    addChildrenHandle(row) {
+      this.dialogVisible = true;
+      this.dialogVisibleType = "add";
+      this.items = {};
+      this.getParentMap();
+      this.items.parent_id = row.id;
+    },
+    addPermissionHandle(row) {
+      this.dialogPermVisble = true;
+      this.dialogPermVisbleType = "add";
 
-    editPermissionHandle() {},
-    deleteHandle() {},
+      this.items = {
+        type: 1,
+        parent_id: row.id,
+      };
+    },
+    editPermissionHandle(row) {
+      this.dialogPermVisble = true;
+      this.dialogPermVisbleType = "edit";
+      this.items = row;
+    },
+    async commitPermissionHandle() {
+      this.items.name = this.permGroop;
+      if(this.dialogPermVisbleType == 'add'){
+        await add(this.items);
+      }else{
+        await edit(this.items)
+      }
+      this.dialogPermVisble = false;
+      this.getList();
+    },
+    deleteHandle(row) {
+      this.$confirm("是否确认删除", "提示", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+      })
+        .then(async () => {
+          await del(row.id);
+          this.getList();
+        })
+        .catch((err) => {});
+    },
+    reset(formName) {
+      this.dialogVisible = false;
+      this.dialogPermVisble = false;
+      this.$refs[formName].resetFields();
+    },
   },
 };
 </script>

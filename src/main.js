@@ -5,6 +5,7 @@ import router from './router'
 import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'
 import '@/permission'
+import '@/icons' 
 
 Vue.config.productionTip = false
 

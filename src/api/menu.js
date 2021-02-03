@@ -42,3 +42,10 @@ export function del(id) {
     method: "post",
   });
 }
+
+export function getAllMenus() {
+  return request({
+      url: '/menu/getAllMenus',
+      method: 'get'
+  })
+}

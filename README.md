@@ -16,7 +16,7 @@ npm install --registry=https://registry.npm.taobao.org
 npm run serve
 
 # 目录结构
-
+```
 ├── build                      # 构建相关
 ├── mock                       # 项目mock 模拟数据
 ├── public                     # 静态资源
@@ -45,5 +45,5 @@ npm run serve
 ├── .babelrc                   # babel-loader 配置
 ├── vue.config.js              # vue-cli 配置
 └── package.json               # package.json
-
+```
 

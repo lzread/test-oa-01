@@ -2,17 +2,9 @@
 
   <div>
 
-    <input
-      type="text"
-      placeholder="用户名"
-      v-model="loginForm.username"
-    >
-    <input
-      type="password"
-      placeholder="密码"
-      v-model="loginForm.password"
-    >
-    <svg-icon icon-class="coupons"/>
+    <input type="text" placeholder="用户名" v-model="loginForm.username">
+    <input type="password" placeholder="密码" v-model="loginForm.password">
+    <svg-icon icon-class="coupons" />
     <button @click="login">登录</button>
 
   </div>

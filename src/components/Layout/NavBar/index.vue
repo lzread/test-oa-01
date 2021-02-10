@@ -1,7 +1,7 @@
 <template>
   <div id="NavBar">
-    {{name}}
-    <el-button @click="exit">exit</el-button>
+    <span class="usename">{{name}}</span>
+    <el-button class="exit" icon="el-icon-close" type="danger" size="mini" @click="exit"></el-button>
   </div>
 </template>
 
@@ -31,6 +31,7 @@ export default {
   width: 100%;
   height: 55px;
   display: flex;
+  align-items: center;
   position: fixed;
   left: 0;
   top: 0;
@@ -38,5 +39,7 @@ export default {
   box-sizing: border-box;
   z-index: 99;
   border-bottom: 1px solid #ccc;
+  .usename{flex-grow: 1; text-align: right;}
+  .exit{height: 20px;}
 }
 </style>

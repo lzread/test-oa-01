@@ -5,11 +5,15 @@ import router from './router'
 import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'
 import '@/permission'
-import '@/icons' 
+import '@/icons'
+
+import '@/styles/index.scss'
 
 Vue.config.productionTip = false
 
-Vue.use(ElementUI);
+Vue.use(ElementUI,{
+  size:'small'
+});
 
 new Vue({
   router,

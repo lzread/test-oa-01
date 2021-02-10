@@ -18,6 +18,10 @@
           >管理用户</el-button>
           <el-button
             type="text"
+            @click="permissionHandle(scope.row)"
+          >权限设置</el-button>
+          <el-button
+            type="text"
             @click="editRoleHandle(scope.row)"
           >编辑角色</el-button>
           <el-button
@@ -118,6 +122,29 @@
 
     </el-dialog>
 
+    <el-dialog
+      width="640px"
+      :visible.sync="dialogVisiblePermission"
+      title="权限设置"
+    >
+
+      <el-tree
+        :data="menus"
+        :check-strictly="true"
+        show-checkbox
+        default-expand-all
+        node-key="id"
+        ref="tree"
+        :props="defaultProps"
+      ></el-tree>
+
+      <div slot="footer">
+        <el-button @click="dialogVisiblePermission = flase">取消</el-button>
+        <el-button @click="addRoleMenu">提交</el-button>
+      </div>
+
+    </el-dialog>
+
   </div>
 </template>
 
@@ -129,8 +156,11 @@ import {
   deleteRole,
   addUserRole,
   deleteUserRole,
+  getRoleMenu,
+  addRoleMenuBatch,
 } from "@/api/role";
 import { getUsers } from "@/api/user";
+import { getAllMenus } from "@/api/menu";
 import Pagination from "@/components/Pagination";
 export default {
   name: "roles",
@@ -141,7 +171,13 @@ export default {
       dialogVisibleRole: false,
       dialogVisibleRoleType: "add",
       dialogVisibleUser: false,
+      dialogVisiblePermission: false,
       users: [],
+      menus: [],
+      defaultProps: {
+        children: "children",
+        label: "title",
+      },
       role_id: "",
       userTotal: 0,
       userListQuery: {
@@ -160,8 +196,40 @@ export default {
   created() {
     this.getRoles();
     this.getUserList();
+    this.getMenus();
   },
   methods: {
+    async getMenus() {
+      const { data } = await getAllMenus();
+      this.menus = data;
+    },
+
+    async permissionHandle(row) {
+      const { id } = row;
+      this.role_id = id;
+      this.dialogVisiblePermission = true;
+      const { data } = await getRoleMenu(id);
+      let keys = [];
+      data.forEach((item) => {
+        keys.push(item.menu_id);
+      });
+      this.$refs.tree.setCheckedKeys(keys);
+    },
+
+    async addRoleMenu() {
+      const role_id = this.role_id;
+      const keys = this.$refs.tree.getCheckedKeys();
+      let arr = [];
+      for(let x in keys){
+        arr.push({
+          role_id:role_id,
+          menu_id:keys[x]
+        });
+      }
+      await addRoleMenuBatch(role_id, arr);
+      this.dialogVisiblePermission = false;
+    },
+
     isCurrent(row) {
       if (row.role_ids) {
         const ids = row.role_ids.split(",");

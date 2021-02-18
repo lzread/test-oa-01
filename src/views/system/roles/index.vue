@@ -4,7 +4,7 @@
     <el-table :data="roles">
       <el-table-column
         prop="role_name"
-        label="角色名称"
+        :label="$t('table.title')"
       ></el-table-column>
       <el-table-column
         prop="role_desc"

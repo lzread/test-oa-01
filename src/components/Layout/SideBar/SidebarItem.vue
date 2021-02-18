@@ -9,7 +9,7 @@
           :index="item.path"
           v-if="!item.hidden && !item.redirect"
         >
-          <template slot="title">{{item.meta.title}}</template>
+          <template slot="title">{{generateTitle(item.meta.title)}}</template>
           <sidebar-item :items="item.children"></sidebar-item>
         </el-submenu>
 
@@ -21,7 +21,7 @@
             :key="child.path"
           >
 
-            {{child.meta.title}}
+            {{generateTitle(child.meta.title)}}
 
           </el-menu-item>
 
@@ -42,8 +42,10 @@
 </template>    
 
 <script>
+import { generateTitle } from '@/utils/i18n'
 export default {
   name: "SidebarItem",
   props: ["items"],
+  methods: {generateTitle}
 };
 </script>

@@ -1,9 +1,12 @@
 import router from './router'
 import Cookies from 'js-cookie'
 import store from './store'
-
+import getPageTitle from '@/utils/get-page-title'
 const whiteList = ['/login']
 router.beforeEach(async (to, from, next) => {
+
+    document.title = getPageTitle(to.meta.title)
+    
     const hasToken = Cookies.get('token') //获取 token 来判断是否登录
     if (hasToken) {
 
@@ -19,7 +22,7 @@ router.beforeEach(async (to, from, next) => {
             if (hasRoles) {
                 next()
             } else {
-                const {roles} = await store.dispatch('user/getInfo');
+                const { roles } = await store.dispatch('user/getInfo');
                 const serverRouter = await store.dispatch('user/getMenus');
                 console.log(serverRouter)
                 const accessRoutes = await store.dispatch('permission/generateRoutes', { roles, serverRouter });

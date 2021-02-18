@@ -1,11 +1,13 @@
 <template>
   <div id="NavBar">
     <span class="usename">{{name}}</span>
+    <lang-select class="set-language" />
     <el-button class="exit" icon="el-icon-close" type="danger" size="mini" @click="exit"></el-button>
   </div>
 </template>
 
 <script>
+import LangSelect from "@/components/LangSelect";
 import { mapGetters } from "vuex";
 export default {
   name: "navbar",
@@ -23,6 +25,7 @@ export default {
       });
     },
   },
+  components: { LangSelect },
 };
 </script>
 
@@ -39,7 +42,12 @@ export default {
   box-sizing: border-box;
   z-index: 99;
   border-bottom: 1px solid #ccc;
-  .usename{flex-grow: 1; text-align: right;}
-  .exit{height: 20px;}
+  .usename {
+    flex-grow: 1;
+    text-align: right;
+  }
+  .exit {
+    height: 20px;
+  }
 }
 </style>

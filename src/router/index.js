@@ -32,7 +32,7 @@ export const constantRoutes = [
             path: '/',
             component: () => import('@/views/home/index'),
             meta: {
-                title: '首页',
+                title: 'dashboard',
             }
         }]
     },

@@ -4,53 +4,25 @@
     <el-button @click="addHandle">新建</el-button>
 
     <el-button @click="exportHandle">导出</el-button>
+    <el-button @click="uploadHandle">导入</el-button>
 
     <el-table :data="rows">
-      <el-table-column
-        prop="realname"
-        label="真实姓名"
-      ></el-table-column>
-      <el-table-column
-        prop="username"
-        label="用户名"
-      ></el-table-column>
-      <el-table-column
-        prop="email"
-        label="邮箱"
-      ></el-table-column>
-      <el-table-column
-        prop="phone"
-        label="联系电话"
-      ></el-table-column>
+      <el-table-column prop="realname" label="真实姓名"></el-table-column>
+      <el-table-column prop="username" label="用户名"></el-table-column>
+      <el-table-column prop="email" label="邮箱"></el-table-column>
+      <el-table-column prop="phone" label="联系电话"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            @click="editHandle(scope.row)"
-          >编辑</el-button>
+          <el-button type="text" @click="editHandle(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="listQuery.page"
-      :limit.sync="listQuery.limit"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog
-      width="640px"
-      :visible.sync="dialogVisible"
-      :title="dialogVisibleType == 'add' ? '新建' : '编辑'"
-    >
+    <el-dialog width="640px" :visible.sync="dialogVisible" :title="dialogVisibleType == 'add' ? '新建' : '编辑'">
 
-      <el-form
-        :model="items"
-        label-width="80px"
-        label-position="right"
-      >
+      <el-form :model="items" label-width="80px" label-position="right">
 
         <el-form-item label="用户名">
           <el-input v-model="items.username"></el-input>
@@ -85,11 +57,19 @@
 
     </el-dialog>
 
+    <el-dialog width="640px" :visible.sync="dialogUploadVisible" title="导入">
+      <upload-excel-component :on-success="handleSuccess" :before-upload="beforeUpload" />
+      <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
+        <el-table-column v-for="item of tableHeader" :key="item" :prop="item" :label="item" />
+      </el-table>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
 import { getUsers, addUser, updateUser } from "@/api/user";
+import UploadExcelComponent from "@/components/UploadExcel/index.vue";
 export default {
   name: "users",
   data() {
@@ -99,16 +79,39 @@ export default {
       items: {},
       dialogVisible: false,
       dialogVisibleType: "add",
+      dialogUploadVisible: false,
       listQuery: {
         page: 1,
         limit: 10,
       },
+      tableData: [],
+      tableHeader: [],
     };
   },
   created() {
     this.getList();
   },
   methods: {
+    uploadHandle() {
+      this.dialogUploadVisible = true;
+    },
+    beforeUpload(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1;
+
+      if (isLt1M) {
+        return true;
+      }
+
+      this.$message({
+        message: "Please do not upload files larger than 1m in size.",
+        type: "warning",
+      });
+      return false;
+    },
+    handleSuccess({ results, header }) {
+      this.tableData = results;
+      this.tableHeader = header;
+    },
     exportHandle() {
       import("@/vendor/Export2Excel").then((excel) => {
         const tHeader = ["ID", "USERNAME"];
@@ -161,7 +164,7 @@ export default {
       this.getList();
     },
   },
-  components: {},
+  components: { UploadExcelComponent },
 };
 </script>
 
